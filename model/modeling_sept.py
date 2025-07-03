@@ -1,5 +1,5 @@
 from transformers import Qwen2PreTrainedModel, Qwen2Model
-from transformers.modeling_outputs import BaseModelOutputWithPast
+from transformers.modeling_outputs import BaseModelOutputWithPast, ModelOutput
 from typing import Optional, Tuple
 from dataclasses import dataclass
 import torch
