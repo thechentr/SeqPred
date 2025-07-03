@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 from transformers.cache_utils import Cache
 from transformers.utils import add_start_docstrings
-from transformers.utils.doc import auto_docstring
+from transformers.utils import auto_docstring
 
 @dataclass
 class SeptOutput(ModelOutput):
