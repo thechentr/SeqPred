@@ -58,11 +58,8 @@ def data_to_change_rate(data: Union[np.ndarray, list]) -> np.ndarray:
     # Convert to numpy array if it's a list
     if isinstance(data, list):
         data = np.array(data)
+
+    change_present = (data[1:] - data[:-1]) / data[:-1]
     
     # Calculate change rates as percentages
-    # For each point, calculate: ((current_value - previous_value) / previous_value) * 100
-    change_rates = np.zeros(len(data) - 1)
-    for i in range(1, len(data)):
-        change_rates[i-1] = ((data[i] - data[i-1]) / data[i-1]) * 100
-    
-    return change_rates
+    return change_present * 100
