@@ -4,6 +4,9 @@ from typing import Optional, Tuple
 from dataclasses import dataclass
 import torch
 import torch.nn as nn
+from transformers.cache_utils import Cache
+from transformers.utils import add_start_docstrings
+from transformers.utils.doc import auto_docstring
 
 @dataclass
 class SeptOutput(ModelOutput):
@@ -33,7 +36,12 @@ class SeptOutput(ModelOutput):
     hidden_states: Optional[Tuple[torch.FloatTensor, ...]] = None
     attentions: Optional[Tuple[torch.FloatTensor, ...]] = None
 
-@auto_docstring
+@add_start_docstrings(
+    """
+    The Qwen2 model with a sequence prediction head on top (a linear layer on top of the pooled output) e.g. for
+    sequence prediction tasks.
+    """,
+)
 class Qwen2ForSept(Qwen2PreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -56,7 +64,6 @@ class Qwen2ForSept(Qwen2PreTrainedModel):
     def set_input_embeddings(self, value):
         self.model.embed_tokens = value
 
-    @can_return_tuple
     @auto_docstring
     def forward(
         self,
