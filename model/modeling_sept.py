@@ -104,7 +104,7 @@ class Qwen2ForSept(Qwen2PreTrainedModel):
             loss = loss_fct(logits.squeeze(-1), labels)
 
             loss_mask = ~torch.isnan(labels)
-            loss = (loss * loss_mask).sum() / loss_mask.sum()
+            loss = loss[loss_mask].mean()
 
         return SeptOutput(
             loss=loss,
