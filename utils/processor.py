@@ -101,4 +101,27 @@ def random_sequence_sample(data, seq_len, seq_num=None):
         sequence = data[start_idx:start_idx + seq_len].tolist()
         sequences.append(sequence)
     
+    sequences = [np.array(seq) for seq in sequences]
+
     return sequences
+
+
+def add_noise_to_array(array, noise_mean=0, noise_std=0.1):
+    """
+    Add noise to an array.
+    
+    Args:
+        array: Input array to add noise to
+        noise_std: Standard deviation of the Gaussian noise (default: 0.1)
+        noise_mean: Mean of the noise (default: 0)
+    Returns:
+        Array with added noise
+    """
+    
+    # Generate noise with the same shape as the input array
+    noise = np.random.normal(noise_mean, noise_std, array.shape)
+    
+    # Add noise to the original array
+    noisy_array = array + noise
+    
+    return noisy_array
