@@ -63,3 +63,42 @@ def data_to_change_rate(data: Union[np.ndarray, list]) -> np.ndarray:
     
     # Calculate change rates as percentages
     return change_present * 100
+
+
+def random_sequence_sample(data, seq_len, seq_num=None):
+    """
+    Generate random sequence samples from a list of data
+    
+    Args:
+        data: List or numpy array of data values
+        seq_len: Length of each sequence
+        seq_num: Number of sequences to generate (if None, return all possible sequences)
+        
+    Returns:
+        list: List of sequences, each sequence is a list of seq_len elements
+    """
+    data = np.array(data) if isinstance(data, list) else data
+    
+    # Calculate maximum possible sequences
+    max_start_idx = len(data) - seq_len
+    if max_start_idx < 0:
+        raise ValueError(f"Data length ({len(data)}) is less than sequence length ({seq_len})")
+    
+    max_possible_sequences = max_start_idx + 1
+    
+    # If seq_num is None  return all possible sequences
+    if seq_num is None:
+        sequences = []
+        for start_idx in range(max_possible_sequences):
+            sequence = data[start_idx:start_idx + seq_len].tolist()
+            sequences.append(sequence)
+        return sequences
+    
+    # Otherwise, generate random sequences as before
+    sequences = []
+    for _ in range(seq_num):
+        start_idx = np.random.randint(0, max_start_idx + 1)
+        sequence = data[start_idx:start_idx + seq_len].tolist()
+        sequences.append(sequence)
+    
+    return sequences

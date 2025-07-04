@@ -100,7 +100,10 @@ class Qwen2ForSept(Qwen2PreTrainedModel):
 
         loss = None
         if labels is not None:
-            loss = nn.functional.mse_loss(logits, labels)
+            # Create mask to exclude labels with value -100
+            valid_mask = labels != -100
+            if valid_mask.any():
+                loss = nn.functional.mse_loss(logits[valid_mask], labels[valid_mask])
 
         return SeptOutput(
             loss=loss,
