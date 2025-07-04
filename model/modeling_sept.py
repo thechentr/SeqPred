@@ -100,10 +100,11 @@ class Qwen2ForSept(Qwen2PreTrainedModel):
 
         loss = None
         if labels is not None:
-            # Create mask to exclude labels with value -100
-            valid_mask = labels != -100
-            if valid_mask.any():
-                loss = nn.functional.mse_loss(logits[valid_mask], labels[valid_mask])
+            loss_fct = torch.nn.MSELoss(reduction="none")  # Do not reduce the loss to a single value
+            loss = loss_fct(logits.squeeze(-1), labels)
+
+            loss_mask = ~torch.isnan(labels)
+            loss = (loss * loss_mask).sum() / loss_mask.sum()
 
         return SeptOutput(
             loss=loss,
