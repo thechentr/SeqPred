@@ -102,6 +102,7 @@ class Qwen2ForSept(Qwen2PreTrainedModel):
         if labels is not None:
             loss_fct = torch.nn.MSELoss(reduction="none")  # Do not reduce the loss to a single value
             loss = loss_fct(logits.squeeze(-1), labels)
+            loss = torch.log(loss + 1)
 
             loss_mask = ~torch.isnan(labels)
             loss = loss[loss_mask].mean()
